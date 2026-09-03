@@ -2,11 +2,8 @@ import { useState } from 'react';
 import{Link} from 'react-router';
 function Auth() {
     /*const [variavel, funcaoAlteraVariavel]= uSatate('valor inicial'); */
-    const [batatinha, setBatatinha] = useState(2);
-
-function sub(){
-    setBatatinha(batatinha -1)
-}
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
 
 
     return (
@@ -17,13 +14,6 @@ function sub(){
                 <div className="w-full max-w-sm rounded-2xl bg-[#080F24] p-6 text-white shadow-2xl">
 
                     <div className="mb-8 text-center">
-
-
-                        <div className=' bg-blue-100 rounded-full p-2'onClick={sub}>-</div>
-                        {batatinha}
-                        <div className=' bg-green-100 rounded-full p-2' onClick={() => setBatatinha (batatinha +1)}>+</div>
-
-
                         <h1 className="text-3xl font-bold">
                             <span className="text-white">Nutri </span> 
                             <span className="text-green-500">Connect</span>
@@ -34,17 +24,21 @@ function sub(){
                         <input
                             id="iEmaillogin"
                             type="email"
+                            value={email}
                             className="w-full rounded-lg border bg-white px-4 py-3 text-black outline-none"
                             placeholder="Digite o seu email cadastrado:"
+                            onChange={(e) => setEmail(e.target.value)}
                         />
-
+                         
                         Senha:
 
                         <input
                             id="iPassLogin"
                             type="password"
+                            value={password}
                             className="w-full rounded-lg border bg-white px-4 py-3 text-black outline-none"
                             placeholder="Digite sua senha:"
+                            onChange={(e) => setPassword (e.target.value)}
                         />
 
                         <Link
