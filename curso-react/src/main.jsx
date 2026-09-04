@@ -18,8 +18,8 @@ install({
   theme: {
     extend:{
       colors:{
-        primary: ' #5782AD',
-        secondary: '#B3D9FF',
+        primary: ' #1ca301',
+        secondary: '#b4fdc6',
 
       },
     },

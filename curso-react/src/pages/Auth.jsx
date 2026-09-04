@@ -4,6 +4,32 @@ function Auth() {
     /*const [variavel, funcaoAlteraVariavel]= uSatate('valor inicial'); */
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [mensagem, setMensagem] = useState("")
+
+
+    function handleLogin(){
+        const users = JSON.parse(localStorage.getItem('users'))
+        let user = users.find(u =>{
+            return u.email == email
+        })
+
+        if(!user){
+            setMensagem("usuário não encontrado")
+            return
+        }
+
+        if(user.senha == password){
+
+            localStorage.setItem('logged', JSON.stringify(users))
+            setUser({})
+
+        }else{
+
+             setMensagem("Senha inválida")
+
+        }
+
+    }
 
 
     return (
@@ -41,13 +67,13 @@ function Auth() {
                             onChange={(e) => setPassword (e.target.value)}
                         />
 
-                        <Link
-                            id="btLogin"
+                        <a
+                            onClick={handleLogin}
                             className="mt-5 rounded-md bg-green-500 py-2 text-center font-bold text-white hover:bg-green-600"
-                            to="/painel"
+                            
                         >
                             Entrar
-                        </Link>
+                        </a>
                         </form>
                     </div>
                 </div>

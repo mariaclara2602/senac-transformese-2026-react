@@ -1,38 +1,55 @@
 import { useState } from "react";
 
 function Painel (){
-    const [modal, setModal ] = useState(false)
+    const [modal, setModal ] = useState(false) 
+    const [users, setUsers ] = useState([])
+    const [user, setUser ] = useState({})
+
+
+
+function handleRegister(){
+    const newUsers = [...users, user];
+    setUsers(newUsers)
+    localStorage.setItem('users', JSON.stringify(newUsers))
+    setUser({})
+
+    setModal(false)
+}
+
     return(
-        <>
+        <div>
         <h3 id="hello"></h3>
 
 {  modal && (
     (<div 
         id="modalRegister" 
         className="fixed flex top-0 right-0 bottom-0 
-            left-0  items-center justify-center bg-black/50 z-50">
+            left-0  items-center justify-center bg-green-200 bg-opacity-75 z-50">
 
-        <div className="relative max-w-md w-full p-5 bg-about rounded-lg 
-            shadow-md flex flex-col bg-white">
+        <div className="relative max-w-md w-full p-10 bg-about rounded-lg 
+            shadow-md flex flex-col bg-green-500">
 
             <a id="btClose" 
-                className="bg-red-500 absolute top-0 right-0 px-2 
-                rounded-full cursor-pointer text-white"
+                className="bg-black absolute top-1 right-1 px-2 
+                rounded-md cursor-pointer text-white"
                 onClick={() => setModal (close)}>
                 X
             </a>
-            <h2>Cadastre um novo usuário</h2>
+            <h2 className="text-center text-2xl font-bold">Cadastre um novo usuário </h2>
 
-            <form className="flex flex-col" >
+            <form className="flex flex-col py-4 font-bold text-black" >
                 Nome:
-                <input id="iName" type="text" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Digite seu nome completo"/>
+                <input onChange={(e) => setUser({...user, nome: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
+                py-2 text-black" placeholder="Digite seu nome completo"/>
                 Email:
-                <input id="iEmail" type="email" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Digite o seu melhor email" />
+                <input onChange={(e) => setUser({...user, email: e.target.value})}  type="email" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Digite seu email" />
                 Senha:
-                <input id="iPass" type="password" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Letra maiúscula e números" />
+                <input  onChange={(e) => setUser({...user, senha: e.target.value})}  type="password" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Letra maiúscula e números" />
                 Data de nascimento:
-                <input id="iBirth" type="date" className="w-full rounded-lg border bg-white px-2 py-2 text-black" />
-                <a id="formRegister" className="mt-5 bg-green-500 text-white text-center rounded-full py-2">Salvar</a>
+                <input onChange={(e) => setUser({...user, nascimento: e.target.value})}  type="date" className="w-full rounded-lg border bg-white px-2 py-2 text-black" />
+
+                <a onClick={handleRegister} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2">Salvar</a>
+
             </form>
         </div>
     </div>)
@@ -55,7 +72,7 @@ function Painel (){
         
         
         
-        </>
+        </div>
     )
 }
 
