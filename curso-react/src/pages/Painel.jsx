@@ -6,6 +6,8 @@ function Painel (){
     const [users, setUsers ] = useState([])
     const [user, setUser ] = useState({})
     const [logged, setLogged]= useState ({})
+    const [isEdit, setIsEdit] = useState (false)
+
 
     useEffect(
         ()=>{
@@ -45,13 +47,19 @@ function handleRegister(){
         <div className="relative max-w-md w-full p-10 bg-about rounded-lg 
             shadow-md flex flex-col bg-green-500">
 
-            <a id="btClose" 
+            <a onAuxClick={()=> {
+                setModal(false)
+                 setIsEdit(false)
+            }} 
                 className="bg-black absolute top-1 right-1 px-2 
                 rounded-md cursor-pointer text-white"
                 onClick={() => setModal (close)}>
                 X
             </a>
             <h2 className="text-center text-2xl font-bold">Cadastre um novo usuário </h2>
+
+
+            {isEdit? (
 
             <form className="flex flex-col py-4 font-bold text-black" >
                 Nome:
@@ -64,9 +72,20 @@ function handleRegister(){
                 Data de nascimento:
                 <input value={user.nascimento} onChange={(e) => setUser({...user, nascimento: e.target.value})}  type="date" className="w-full rounded-lg border bg-white px-2 py-2 text-black" />
 
+                <a onClick={()=> setIsEdit(false)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-red-500">Cancelar</a>
                 <a onClick={handleRegister} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2">Salvar</a>
 
-            </form>
+            </form>): //else
+            (
+                <>
+                    <p>Nome: {user.nome}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Data de nascimento: {user.nascimento}</p>
+                    <a onClick={() => setIsEdit(true)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-black">Editar</a>
+                </>
+            )
+
+            }
         </div>
     </div>)
 )}
