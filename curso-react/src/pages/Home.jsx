@@ -4,7 +4,7 @@ function Home(){
 return (                                                                                 //tudo dentro do () é html  //return apenas uma coisa só 
 
 <>
-    <nav className="flex items-center py-2 px-4 shadow bg-white top-0 fixed w-full "> 
+    <nav className="flex items-center py-2 px-4 shadow bg-black top-0 fixed w-full text-white "> 
         <a className="mr-2 p-2 hover:bg-primary" href="#about">Sobre</a>
         <a className="mr-2 p-2 hover:bg-primary" href="#prices">Preços</a>
         <a className="mr-2 p-2 hover:bg-primary" href="#features">Benefícios</a>
@@ -13,12 +13,15 @@ return (                                                                        
 
 
         <section id="about">
-            <div className="max-w-lg   mx-auto  py-5">
-                <h1 className="text-center"> Nutri Connect</h1>
+            <div className="max-w-lg   mx-auto  py-20">
+                <h1 className="text-center "> 
+                     <span className="text-black">Nutri </span> 
+                     <span className="text-green-500">Connect</span>
+                </h1>
 
                 <div className="flex gap-8" >                            
                     <article>
-                        <h3> Conheça um pouco do nosso app.</h3>
+                        <h3> Conheça um pouco do nosso Aplicativo:</h3>
                          Nosso projeto terá dois planos, desenvolvidos para atender diferentes necessidades. 
                             Um deles vai ser voltado para pessoas com seletividade alimentar, oferecendo sugestões 
                             personalizadas de acordo com as preferências e escolhas de cada usuário, incluindo 
@@ -39,11 +42,11 @@ return (                                                                        
         </section>
 
         <section id="prices">
-            <div className="max-w-lg mx-auto py-5">
+            <div className="max-w-lg mx-auto py-2">
                 <h2 className="text-center">Preços</h2>
                 <div className="flex gap-8" >
                 <article>
-                    <h3> Valores para utilização do nosso App.</h3>
+                    <h3> Valores para utilização do nosso Aplicativo:</h3>
                     Ainda estamos definindo os valores do aplicativo, mas nosso objetivo é oferecer um preço
                         acessível aos usuários. Queremos garantir que o Nutri Connect tenha ferramentas de qualidade 
                         sem que o custo seja um obstáculo para quem precisa utilizar o aplicativo.
@@ -65,7 +68,7 @@ return (                                                                        
                 <h2 className="text-center"> Benefícios</h2>
             <div className="flex gap-8" >
                 <article>
-                    <h3> Confira o que podemos agregar em sua vida. </h3>
+                    <h3> Confira o que podemos agregar em sua vida: </h3>
                         O Nutri Connect busca tornar a alimentação mais leve, prática e personalizada, oferecendo
                          suporte para pessoas com seletividade alimentar. Entre os benefícios estão sugestões de acordo
                          com as preferências do usuário, refeições mais atrativas e maior autonomia nas escolhas alimentares.

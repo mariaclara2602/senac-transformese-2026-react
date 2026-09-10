@@ -1,14 +1,16 @@
 import { useState } from 'react';
-import{Link} from 'react-router';
+import{Link, useNavigate} from 'react-router';
 function Auth() {
     /*const [variavel, funcaoAlteraVariavel]= uSatate('valor inicial'); */
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [mensagem, setMensagem] = useState("")
+    const nav= useNavigate("")
 
 
     function handleLogin(){
-        const users = JSON.parse(localStorage.getItem('users'))
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+
         let user = users.find(u =>{
             return u.email == email
         })
@@ -20,12 +22,11 @@ function Auth() {
 
         if(user.senha == password){
 
-            localStorage.setItem('logged', JSON.stringify(users))
-            setUser({})
-
+            localStorage.setItem('logged', JSON.stringify(user))
+            nav("/painel");
         }else{
 
-             setMensagem("Senha inválida")
+             setMensagem("Senha inválida");
 
         }
 
@@ -36,7 +37,7 @@ function Auth() {
         <>
             <div className="bg-green-400 flex min-h-screen 
             items-center justify-center px-4 pt-20">
-
+                    
                 <div className="w-full max-w-sm rounded-2xl bg-[#080F24] p-6 text-white shadow-2xl">
 
                     <div className="mb-8 text-center">
@@ -66,7 +67,7 @@ function Auth() {
                             placeholder="Digite sua senha:"
                             onChange={(e) => setPassword (e.target.value)}
                         />
-
+                            {mensagem}
                         <a
                             onClick={handleLogin}
                             className="mt-5 rounded-md bg-green-500 py-2 text-center font-bold text-white hover:bg-green-600"
@@ -78,7 +79,7 @@ function Auth() {
                     </div>
                 </div>
             </div>
-            <script src="user.js"></script>
+
         </>
     )
 }
