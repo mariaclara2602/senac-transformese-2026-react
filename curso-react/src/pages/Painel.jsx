@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {Link} from 'react-router';
+import{ supabase } from '../../utils/supabase';
 
 function Painel (){
     const [modal, setModal ] = useState(false) 
@@ -27,12 +28,13 @@ function updateUser(pUser){
     setUser(pUser)
 }
 
-function handleRegister(){
-    const newUsers = [...users, user];
-    setUsers(newUsers)
-    localStorage.setItem('users', JSON.stringify (newUsers))
-    setUser({})
-    setModal(false)
+async function handleRegister(){
+
+    await supabase.auth.signUp({
+        email: user.email,
+        password:user.senha
+    });
+  
 }
 
     return(
