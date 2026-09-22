@@ -8,7 +8,8 @@ function Painel (){
     const [user, setUser ] = useState({})
     const [logged, setLogged]= useState ({})
     const [isEdit, setIsEdit] = useState (false)
-
+     const [spiner, setSpiner] = useState (false)
+    const [msg, setMsg] = useState('')
 
     useEffect(
         ()=>{
@@ -29,13 +30,29 @@ function updateUser(pUser){
 }
 
 async function handleRegister(){
-
-    await supabase.auth.signUp({
+    setSpiner(true)
+    const {data: authData, error: authError} = await supabase.auth.signUp({
         email: user.email,
         password:user.senha
     });
   
+    if(authError){
+        setMsg (authError.message)
+        setSpiner(false)
+        return;
+    }
+
+    if(!authData){
+        setMsg("Não foi possível cadastrar, verifique sua conexão")
+        setSpiner(false)
+        return;
+    }
+
+    const{ data: loginData, error: loginError} = await supabase.auth.signInWithPassword({ amail: user.email, password: user.senha })
 }
+
+ 
+
 
     return(
     <div>
@@ -73,17 +90,23 @@ async function handleRegister(){
                 <input  onChange={(e) => setUser({...user, senha: e.target.value})}  type="password" className="w-full rounded-lg border bg-white px-2 py-2 text-black" placeholder="Letra maiúscula e números" />
                 Data de nascimento:
                 <input value={user.nascimento} onChange={(e) => setUser({...user, nascimento: e.target.value})}  type="date" className="w-full rounded-lg border bg-white px-2 py-2 text-black" />
-
+                Cpf:
+                <input value={user.cpf} onChange={(e) => setUser({...user, Cpf: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
+                py-2 text-black" placeholder="Digite seu Cpf"/>
+                Telefone:
+                 <input value={user.telefone} onChange={(e) => setUser({...user, telefone: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
+                py-2 text-black" placeholder="Digite seu Telefone"/>
+                
                 <a onClick={()=> setIsEdit(false)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-red-500">Cancelar</a>
-                <a onClick={handleRegister} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2">Salvar</a>
-
+                <a onClick={handleRegister} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2"> {spiner? '...' : 'Salvar'}</a>
+                    {msg}
             </form>): //else
             (
                 <>
                     <p>Nome: {user.nome}</p>
                     <p>Email: {user.email}</p>
                     <p>Data de nascimento: {user.nascimento}</p>
-                    <a onClick={() => setIsEdit(true)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-black">Editar</a>
+                    <a onClick={() => setIsEdit(true)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-black"> Salvar </a>
                 </>
             )
 
