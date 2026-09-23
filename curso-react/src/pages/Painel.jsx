@@ -15,43 +15,67 @@ function Painel (){
         ()=>{
          const logged = JSON.parse (localStorage.getItem('logged'))
          setLogged(logged)
-        },
-        [] 
-    );
+        },[]);
 
     useEffect(() =>{
-        const usersTemp = JSON.parse(localStorage.getItem('users'))
-        if(usersTemp) setUsers(usersTemp)
+        loadusers()
     },[])
+
+    async function loadusers(){
+        const{data, error}= await supabase.from('profiles').select('*')
+        if(error){
+            setMsg(error.message)
+            return;
+        }
+
+        setUsers(data)
+    }
 
 function updateUser(pUser){
     setModal(true)
     setUser(pUser)
 }
 
-async function handleRegister(){
-    setSpiner(true)
-    const {data: authData, error: authError} = await supabase.auth.signUp({
-        email: user.email,
-        password:user.senha
-    });
-  
-    if(authError){
-        setMsg (authError.message)
-        setSpiner(false)
-        return;
+    function updateUser(indice) {
+        setModal(true)
+        setUser(users[indice])
+        setIndex(indice)
     }
 
-    if(!authData){
-        setMsg("Não foi possível cadastrar, verifique sua conexão")
+    async function handleRegister(){
+        setMsg ('')
+        setSpiner(true)
+        const {data: authData, error: authError} = await supabase.auth.signUp({
+            email: user.email,
+            password:user.senha
+        });
+    
+        if(authError){
+            setMsg (authError.message)
+            setSpiner(false)
+            return;
+        }
+
+        if(!authData){
+            setMsg("Não foi possível cadastrar, verifique sua conexão")
+            setSpiner(false)
+            return;
+        }
+
+        const{ data: loginData, error: loginError} = await supabase.auth.signInWithPassword({ email: user.email, password: user.senha });
+
+        const {error: profileError} = await supabase.from('profiles').insert({user_id: loginData.user.id, name: user.nome, cpf: user.cpf, phone: user.phone, gender: user.gender, birth_date: user.nascimento});
+
+        if (profileError) {
+            //console.log(authError)
+            setMsg(profileError.message)
+            setSpiner(false)
+            return;
+        }
+
         setSpiner(false)
-        return;
+        setMsg ('cadastrado com sucesso')
     }
-
-    const{ data: loginData, error: loginError} = await supabase.auth.signInWithPassword({ amail: user.email, password: user.senha })
-}
-
- 
 
 
     return(
@@ -91,10 +115,10 @@ async function handleRegister(){
                 Data de nascimento:
                 <input value={user.nascimento} onChange={(e) => setUser({...user, nascimento: e.target.value})}  type="date" className="w-full rounded-lg border bg-white px-2 py-2 text-black" />
                 Cpf:
-                <input value={user.cpf} onChange={(e) => setUser({...user, Cpf: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
+                <input value={user.cpf} onChange={(e) => setUser({...user, cpf: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
                 py-2 text-black" placeholder="Digite seu Cpf"/>
                 Telefone:
-                 <input value={user.telefone} onChange={(e) => setUser({...user, telefone: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
+                 <input value={user.telefone} onChange={(e) => setUser({...user, phone: e.target.value})} type="text" className="w-full rounded-lg border bg-white px-2 
                 py-2 text-black" placeholder="Digite seu Telefone"/>
                 
                 <a onClick={()=> setIsEdit(false)} className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2 bg-red-500">Cancelar</a>
@@ -118,7 +142,8 @@ async function handleRegister(){
         <thead className="">
             <tr>
             <th >Nome  </th>
-            <th >Email </th>
+            <th >Data de nascimento </th>
+            <th >Telefone </th>
             <th >Ações </th>
             </tr>
         </thead>
@@ -126,8 +151,9 @@ async function handleRegister(){
         <tbody className="font-secundary">
             {users.map( u=> (
             <tr>      
-                <td>{u.nome}</td>
-                <td>{u.email}</td>
+                <td>{u.name}</td>
+                <td>{u.birth_date}</td>
+                <td>{u.phone}</td>
                 <td>
 
                 <a className='cursor-pointer px-2 mx-3 hover: shadow shadow-md text-white rounded-full bg-green-500'
@@ -144,7 +170,10 @@ async function handleRegister(){
         </tbody>
     </table>
 
-    <a onClick={() => setModal (true)} className="rounded-full bg-primary text-white px-4 py-3 fixed bottom-0 right-0"> + </a>
+    <a onClick={() => {
+        setIsEdit(true)
+        setModal (true)
+    }} className="rounded-full bg-primary text-white px-4 py-3 fixed bottom-0 right-0"> + </a>
     
         </div>
     )
