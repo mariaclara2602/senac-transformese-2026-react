@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from 'react-router';
 import { supabase } from '../../utils/supabase';
+import { ToastSucess, useToast } from "../components/Toast";
 
 function Painel() {
     const [modal, setModal] = useState(false)
@@ -11,7 +12,7 @@ function Painel() {
     const [index, setIndex] = useState(-1)
 
     const [spiner, setSpiner] = useState(false)
-    const [msg, setMsg] = useState('')
+    const {msg, setMsg} = useToast()
 
     useEffect(
         () => {
@@ -187,7 +188,6 @@ function Painel() {
                                     }
                                 }
                                     className="mt-5 bg-black text-white font-bold text-center rounded-lg py-2"> {spiner ? '...' : 'Salvar'}</a>
-                                {msg}
 
                             </form>) : //else
                             (
@@ -237,10 +237,12 @@ function Painel() {
                 </tbody>
             </table>
 
+                     <ToastSucess  msg={msg}/>
+
             <a onClick={() => {
                 setIsEdit(true)
                 setModal(true)
-            }} className="rounded-full bg-primary text-white px-4 py-3 fixed bottom-0 right-0"> + </a>
+            }} className="rounded-full bg-primary text-white px-4 py-3 fixed bottom-10 right-0"> + </a>
 
         </div>
     )
