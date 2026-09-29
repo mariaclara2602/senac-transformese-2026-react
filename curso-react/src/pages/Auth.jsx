@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import{Link, useNavigate} from 'react-router';
+import { Template } from "../components/Template";
 function Auth() {
-    /*const [variavel, funcaoAlteraVariavel]= uSatate('valor inicial'); */
+    
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [mensagem, setMensagem] = useState("")
@@ -34,6 +35,7 @@ function Auth() {
 
 
     return (
+        <Template>
         <>
             <div className="bg-green-400 flex min-h-screen 
             items-center justify-center px-4 pt-20">
@@ -81,6 +83,7 @@ function Auth() {
             </div>
 
         </>
+        </Template>
     )
 }
 

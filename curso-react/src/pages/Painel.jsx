@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from 'react-router';
 import { supabase } from '../../utils/supabase';
 import { ToastSucess, useToast } from "../components/Toast";
+import { Template } from "../components/Template";
 
 function Painel() {
     const [modal, setModal] = useState(false)
@@ -130,6 +131,7 @@ function Painel() {
 
 
     return (
+        <Template>
         <div>
             <h3>Bem vindo(a), {logged?.nome}</h3>
 
@@ -245,6 +247,7 @@ function Painel() {
             }} className="rounded-full bg-primary text-white px-4 py-3 fixed bottom-10 right-0"> + </a>
 
         </div>
+        </Template>
     )
 }
 
